@@ -1,6 +1,11 @@
+import { PageContainer } from '@ant-design/pro-layout'
 
-export default () => {
+const Welcome =  () => {
   return (
-    <div>welcome</div>
+    <PageContainer>
+      welcome
+    </PageContainer>
   );
 };
+
+export default Welcome

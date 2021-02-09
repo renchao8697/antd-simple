@@ -1,23 +1,38 @@
-import { FC } from 'react';
-import type { MenuDataItem } from '@ant-design/pro-layout';
+import type { BasicLayoutProps as ProLayoutProps, Settings } from '@ant-design/pro-layout'
 import ProLayout from '@ant-design/pro-layout';
+import { Link, connect } from 'umi'
+import type { ConnectState } from '@/models/connect'
+import RightContext from '@/components/GlobalHeader/RightContent'
 
-const BacicLayout: FC = (props) => {
+export type BasicLayoutProps = {
+  settings: Settings
+} & ProLayoutProps
+
+const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
+  const { settings } = props
   return (
     <ProLayout
-      title="Haha"
-      menuItemRender={(item, dom) => {
-        console.log(item, dom);
-        return <div>dddd</div>;
+      {...settings}
+      {...props}
+      // breadcrumbRender={(routers = []) => [
+      //   {
+      //     path: '/',
+      //     breadcrumbName: 'Home'
+      //   },
+      //   ...routers,
+      // ]}
+      menuItemRender={(menuItem, defaultDom) => {
+        const { isUrl, path } = menuItem
+        return (isUrl || !path || location.pathname === path) 
+          ? defaultDom 
+          : <Link to={path}>{defaultDom}</Link>
       }}
-      menuDataRender={(menuList: MenuDataItem[]) => {
-        console.log(menuList);
-        return menuList;
-      }}
+      rightContentRender={() => <RightContext />}
     >
       {props.children}
     </ProLayout>
   );
 };
 
-export default BacicLayout;
+export default connect(({settings}: ConnectState) => ({settings}))(BasicLayout);
+
