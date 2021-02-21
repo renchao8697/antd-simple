@@ -1,15 +1,15 @@
-import type { BasicLayoutProps as ProLayoutProps, Settings } from '@ant-design/pro-layout'
+import type { BasicLayoutProps as ProLayoutProps, Settings } from '@ant-design/pro-layout';
 import ProLayout from '@ant-design/pro-layout';
-import { Link, connect } from 'umi'
-import type { ConnectState } from '@/models/connect'
-import RightContext from '@/components/GlobalHeader/RightContent'
+import { Link, connect } from 'umi';
+import type { ConnectState } from '@/models/connect';
+import RightContext from '@/components/GlobalHeader/RightContent';
 
 export type BasicLayoutProps = {
-  settings: Settings
-} & ProLayoutProps
+  settings: Settings;
+} & ProLayoutProps;
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
-  const { settings } = props
+  const { settings } = props;
   return (
     <ProLayout
       {...settings}
@@ -22,10 +22,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       //   ...routers,
       // ]}
       menuItemRender={(menuItem, defaultDom) => {
-        const { isUrl, path } = menuItem
-        return (isUrl || !path || location.pathname === path) 
-          ? defaultDom 
-          : <Link to={path}>{defaultDom}</Link>
+        const { isUrl, path } = menuItem;
+        return isUrl || !path || window.location.pathname === path ? (
+          defaultDom
+        ) : (
+          <Link to={path}>{defaultDom}</Link>
+        );
       }}
       rightContentRender={() => <RightContext />}
     >
@@ -34,5 +36,4 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   );
 };
 
-export default connect(({settings}: ConnectState) => ({settings}))(BasicLayout);
-
+export default connect(({ settings }: ConnectState) => ({ settings }))(BasicLayout);

@@ -1,21 +1,21 @@
-﻿export default [
+﻿const routes = [
   {
     path: '/',
     component: '../layouts/BlankLayout',
     routes: [
       {
         path: '/user',
-        component: '../layouts/UserLayout',
+        component: '../layouts/FullScreenLayout',
         routes: [
           {
             path: '/user',
-            redirect: '/user/login'
+            redirect: '/user/login',
           },
           {
             path: '/user/login',
-            component: './Login'
-          }
-        ]
+            component: './Login',
+          },
+        ],
       },
       {
         path: '/',
@@ -23,7 +23,7 @@
         routes: [
           {
             path: '/',
-            redirect: '/welcome'
+            redirect: '/welcome',
           },
           {
             path: '/welcome',
@@ -35,8 +35,8 @@
             path: '/accountbook',
             name: 'AccountBook',
             icon: 'account-book',
-            component: './AccountBook'
-          }
+            component: './AccountBook',
+          },
         ],
       },
 
@@ -46,3 +46,5 @@
     ],
   },
 ];
+
+export default routes;
