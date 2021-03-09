@@ -8,8 +8,7 @@ function genList(count: number) {
       createdAt: new Date(),
       amount: Math.floor(Math.random() * 1000),
       date: new Date(),
-      desc:
-        'lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala',
+      desc: 'lalalalalala',
       status: `${Math.floor((Math.random() * 10) % 5) + 1}`,
     });
   }

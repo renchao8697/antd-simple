@@ -22,8 +22,8 @@ export type LoginModelType = {
 };
 
 const saveToken = (token: string) => {
-  window.localStorage.setItem('token', token)
-}
+  window.localStorage.setItem('token', token);
+};
 
 const UserModel: LoginModelType = {
   namespace: 'login',
@@ -46,13 +46,13 @@ const UserModel: LoginModelType = {
     },
     logout() {
       history.replace('/user/login');
-      window.localStorage.removeItem('token')
+      saveToken('');
     },
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
-      const { code, data } = payload
-      saveToken(data.token)
+      const { code, data } = payload;
+      saveToken(data.token);
       return {
         ...state,
         success: code === 0,

@@ -1,9 +1,16 @@
-// import { Redirect } from 'umi'
+import React from 'react';
+import { connect, Redirect } from 'umi';
+import type { ConnectState } from '@/models/connect';
 
-import React from "react"
+function Auth({ userLogin, children }: any) {
+  const { success } = userLogin;
+  if (success) {
+    return <>{children}</>;
+  }
 
-export default (props: any): React.ReactNode => {
-  console.log(props)
-  return props.children
-  // return <Redirect to="/user/login" />
+  return <Redirect to="/user/login" />;
 }
+
+export default connect(({ login }: ConnectState) => ({
+  userLogin: login,
+}))(Auth);
