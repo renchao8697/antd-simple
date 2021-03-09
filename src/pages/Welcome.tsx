@@ -6,8 +6,8 @@ const Welcome = () => {
   const [txt, setTxt] = useState('');
   useEffect(() => {
     (async () => {
-      const res = await request('/api/');
-      setTxt(res);
+      const {data = 'default'} = await request('/api/');
+      setTxt(data);
     })();
   }, []);
   return <PageContainer>{txt}</PageContainer>;

@@ -23,9 +23,13 @@ const codeMessage = {
   504: '网关超时。',
 };
 
+// type ErrorResponse = {
+//   success: boolean;
+//   errorMessage: string
+// }
+
 const errorHandler = (error: ErrorType): Response => {
   const { response } = error;
-
   if (response?.status) {
     const { status, statusText, url } = response;
     const errorText = codeMessage[status] ?? statusText;
@@ -43,8 +47,18 @@ const errorHandler = (error: ErrorType): Response => {
 
   // throw 'error'
 
-  return response;
+  // return {
+  //   success: false,
+  //   errorMessage: 'error'
+  // };
+  return response
 };
+
+ 
+const getToken = (): string | null => {
+  const token = window.localStorage.getItem('token')
+  return token
+}
 
 const request = extend({
   credentials: 'include',
@@ -53,5 +67,23 @@ const request = extend({
   //   'XXX': 'haha'
   // }
 });
+
+request.interceptors.request.use((url, options) => {
+
+  const token = getToken()
+  const headers = {}
+
+  if (token) {
+    headers['Authorization'] =  `Bearer ${token}`
+  }
+
+  return {
+    url,
+    options: {
+      ...options,
+      headers
+    }
+  }
+})
 
 export default request;

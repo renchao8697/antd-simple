@@ -4,6 +4,9 @@ import type { AccountBookItem, AccountBookParams } from './data';
 export function queryAccountBook(params: AccountBookParams) {
   return request('/api/accountbook', {
     params,
+  }).then(data => {
+    console.log(data)
+    return {data: [], success: true, total: 0}
   });
 }
 

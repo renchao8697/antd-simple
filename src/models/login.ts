@@ -21,6 +21,10 @@ export type LoginModelType = {
   };
 };
 
+const saveToken = (token: string) => {
+  window.localStorage.setItem('token', token)
+}
+
 const UserModel: LoginModelType = {
   namespace: 'login',
   state: {
@@ -34,7 +38,7 @@ const UserModel: LoginModelType = {
         payload: response,
       });
       // TODO: redirect
-      if (response.success) {
+      if (response.code === 0) {
         message.success('🎉 🎉 🎉  登录成功！');
 
         history.replace('/');
@@ -42,13 +46,16 @@ const UserModel: LoginModelType = {
     },
     logout() {
       history.replace('/user/login');
+      window.localStorage.removeItem('token')
     },
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
+      const { code, data } = payload
+      saveToken(data.token)
       return {
         ...state,
-        success: payload.success,
+        success: code === 0,
       };
     },
   },

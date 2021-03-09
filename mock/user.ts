@@ -16,13 +16,13 @@ export default {
 
     if (username === 'renchao' && password === '123456') {
       res.send({
-        success: true,
+        code: 0,
       });
       return;
     }
 
     res.send({
-      success: false,
+      code: 1,
     });
   },
 };

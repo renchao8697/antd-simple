@@ -20,6 +20,9 @@
       {
         path: '/',
         component: '../layouts/BasicLayout',
+        wrappers: [
+          '@/wrappers/auth.tsx'
+        ],
         routes: [
           {
             path: '/',
