@@ -4,7 +4,7 @@ function genList(count: number) {
   const data = [];
   for (let i = 0; i < count; i += 1) {
     data.push({
-      id: `10000${i}`,
+      _id: `10000${i}`,
       createdAt: new Date(),
       amount: Math.floor(Math.random() * 1000),
       date: new Date(),
@@ -36,8 +36,8 @@ function getAccountBook(req: Request, res: Response) {
 
 function updateAccountBook(req: Request, res: Response) {
   const data = req.body;
-  const { id } = data;
-  const index = accountBookList.findIndex((item) => item.id === id);
+  const { _id } = data;
+  const index = accountBookList.findIndex((item) => item._id === _id);
   accountBookList[index] = { ...data };
   res.json({
     success: true,
@@ -45,9 +45,9 @@ function updateAccountBook(req: Request, res: Response) {
 }
 
 function deleteAccountBook(req: Request, res: Response) {
-  const { id } = req.body;
+  const { _id } = req.body;
 
-  const index = accountBookList.findIndex((item) => item.id === id);
+  const index = accountBookList.findIndex((item) => item._id === _id);
 
   accountBookList.splice(index, 1);
 
@@ -59,7 +59,7 @@ function deleteAccountBook(req: Request, res: Response) {
 function createAccountBook(req: Request, res: Response) {
   const data = { ...req.body };
   data.createdAt = new Date();
-  data.id = parseInt(accountBookList[accountBookList.length - 1].id, 10) + 1;
+  data._id = parseInt(accountBookList[accountBookList.length - 1]._id, 10) + 1;
 
   accountBookList.unshift(data);
   res.json({
@@ -68,8 +68,8 @@ function createAccountBook(req: Request, res: Response) {
 }
 
 export default {
-  'GET /api/accountbook': getAccountBook,
-  'PUT /api/accountbook': updateAccountBook,
-  'DELETE /api/accountbook': deleteAccountBook,
-  'POST /api/accountbook': createAccountBook,
+  'GET /api/accountbooks': getAccountBook,
+  'PUT /api/accountbooks': updateAccountBook,
+  'DELETE /api/accountbooks': deleteAccountBook,
+  'POST /api/accountbooks': createAccountBook,
 };

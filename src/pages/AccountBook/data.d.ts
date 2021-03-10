@@ -1,5 +1,5 @@
 export interface AccountBookItem {
-  id: string;
+  _id: string;
   createdAt: Date;
   amount: number;
   date: Date;

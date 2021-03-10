@@ -5,6 +5,7 @@ import { connect } from 'umi';
 import type { ConnectProps, Dispatch } from 'umi';
 
 import type { ConnectState } from '@/models/connect';
+import type { StateType as LoginStateType } from '@/models/login';
 import style from './index.less';
 
 type EventProps = {
@@ -16,10 +17,13 @@ type EventProps = {
 
 type AvatarDropdownProps = {
   dispatch: Dispatch;
+  userLogin: LoginStateType; 
 } & Partial<ConnectProps>;
 
 // TODO: 添加其他Menu.Item
-const AvatarDropdown: FC<AvatarDropdownProps> = ({ dispatch }) => {
+const AvatarDropdown: FC<AvatarDropdownProps> = ({ userLogin, dispatch }) => {
+  const { username } = userLogin;
+
   const onMenuClick = (event: EventProps) => {
     const { key } = event;
     if (key === 'logout') {
@@ -42,11 +46,11 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ dispatch }) => {
     >
       <span className={`${style.action} ${style.account}`}>
         <Avatar size="small" className={style.avatar} icon={<UserOutlined />} />
-        <span>Ren Chao</span>
+        <span>{username}</span>
       </span>
     </Dropdown>
   );
 };
 
 // TODO: 获取有用的state
-export default connect((state: ConnectState) => state)(AvatarDropdown);
+export default connect(({login}: ConnectState) => ({userLogin: login}))(AvatarDropdown);

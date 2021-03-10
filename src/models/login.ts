@@ -6,6 +6,8 @@ import { accountLogin } from '@/services/login';
 
 export type StateType = {
   success?: boolean;
+  username?: string;
+  id?: string;
   type?: string;
 };
 
@@ -29,6 +31,8 @@ const UserModel: LoginModelType = {
   namespace: 'login',
   state: {
     success: undefined,
+    username: undefined,
+    id: undefined,
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -52,10 +56,13 @@ const UserModel: LoginModelType = {
   reducers: {
     changeLoginStatus(state, { payload }) {
       const { code, data } = payload;
+      const { id, username } = data;
       saveToken(data.token);
       return {
         ...state,
         success: code === 0,
+        username,
+        id
       };
     },
   },

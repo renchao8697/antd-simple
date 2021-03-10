@@ -16,11 +16,11 @@ import {
 import type { AccountBookItem } from './data';
 
 const submitHandler = async (values: AccountBookItem) => {
-  const { id } = values;
-  const txt = id ? '更新' : '创建';
+  const { _id } = values;
+  const txt = _id ? '更新' : '创建';
   const hide = message.loading(`正在${txt}`);
   try {
-    if (id) {
+    if (_id) {
       await updateAccountBook(values);
     } else {
       await createAccoutBook(values);
@@ -34,10 +34,10 @@ const submitHandler = async (values: AccountBookItem) => {
     return false;
   }
 };
-const deleteHandler = async (id: string) => {
+const deleteHandler = async (_id: string) => {
   const hide = message.loading('正在删除');
   try {
-    await deleteAccountBook(id);
+    await deleteAccountBook(_id);
     hide();
     message.success('删除成功');
     return true;
@@ -64,14 +64,14 @@ const AccountBook: FC<Record<string, never>> = () => {
     setShowModal(true);
     setFormType('edit');
   };
-  const deleteFun = ({ id }: AccountBookItem) => {
+  const deleteFun = ({ _id }: AccountBookItem) => {
     Modal.confirm({
       title: '删除该项',
       content: '确定要删除该项账目吗？',
       okText: '确定',
       cancelText: '取消',
       onOk: async () => {
-        const success = await deleteHandler(id);
+        const success = await deleteHandler(_id);
         if (success) {
           actionRef.current?.reload();
         }
@@ -210,8 +210,8 @@ const AccountBook: FC<Record<string, never>> = () => {
         pagination={{
           pageSize: 10,
         }}
-        rowKey="id"
-        request={(params, sorter, filter) => queryAccountBook({ ...params, sorter, filter })}
+        rowKey="_id"
+        request={(params, sorter) => queryAccountBook({ ...params, sorter })}
         toolBarRender={() => [
           <Button type="primary" onClick={() => createFun()}>
             <PlusOutlined />

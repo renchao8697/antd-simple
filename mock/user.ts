@@ -17,6 +17,11 @@ export default {
     if (username === 'renchao' && password === '123456') {
       res.send({
         code: 0,
+        data: {
+          id: '123456',
+          token: '123456',
+          username: 'renchao'
+        }
       });
       return;
     }
