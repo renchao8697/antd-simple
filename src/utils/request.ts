@@ -51,14 +51,13 @@ const errorHandler = (error: ErrorType): Response => {
   //   success: false,
   //   errorMessage: 'error'
   // };
-  return response
+  return response;
 };
 
- 
 const getToken = (): string | null => {
-  const token = window.localStorage.getItem('token')
-  return token
-}
+  const token = window.localStorage.getItem('token');
+  return token;
+};
 
 const request = extend({
   credentials: 'include',
@@ -69,21 +68,21 @@ const request = extend({
 });
 
 request.interceptors.request.use((url, options) => {
-
-  const token = getToken()
-  const headers = {}
+  const token = getToken();
+  const headers = {};
 
   if (token) {
-    headers['Authorization'] =  `Bearer ${token}`
+    const authHeder = 'Authorization';
+    headers[authHeder] = `Bearer ${token}`;
   }
 
   return {
     url,
     options: {
       ...options,
-      headers
-    }
-  }
-})
+      headers,
+    },
+  };
+});
 
 export default request;

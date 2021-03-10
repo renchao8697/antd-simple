@@ -1,9 +1,7 @@
-import AvatarDropdown from './AvatarDropdown'
+import AvatarDropdown from './AvatarDropdown';
 
 const RightContext = () => {
-  return (
-    <AvatarDropdown />
-  )
-}
+  return <AvatarDropdown />;
+};
 
-export default RightContext
+export default RightContext;

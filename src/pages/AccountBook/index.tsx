@@ -48,7 +48,7 @@ const deleteHandler = async (id: string) => {
   }
 };
 
-const AccountBook: FC<{}> = () => {
+const AccountBook: FC<Record<string, never>> = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [formType, setFormType] = useState<'edit' | 'create'>('edit');
   const [row, setRow] = useState<AccountBookItem>();

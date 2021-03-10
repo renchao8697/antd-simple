@@ -6,7 +6,7 @@ const Welcome = () => {
   const [txt, setTxt] = useState('');
   useEffect(() => {
     (async () => {
-      const {data = 'default'} = await request('/api/');
+      const { data = 'default' } = await request('/api/');
       setTxt(data);
     })();
   }, []);
