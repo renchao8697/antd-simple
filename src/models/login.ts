@@ -27,10 +27,12 @@ const saveToken = (token: string) => {
   window.localStorage.setItem('token', token);
 };
 
+const token = window.localStorage.getItem('token')
+
 const UserModel: LoginModelType = {
   namespace: 'login',
   state: {
-    success: undefined,
+    success: token ? true : undefined,
     username: undefined,
     id: undefined,
   },

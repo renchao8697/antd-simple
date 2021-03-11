@@ -91,6 +91,7 @@ const AccountBook: FC<Record<string, never>> = () => {
       title: '使用日期',
       dataIndex: 'date',
       valueType: 'date',
+      sorter: true,
       hideInSearch: true,
       width: 100,
       formItemProps: {

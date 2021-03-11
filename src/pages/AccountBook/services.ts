@@ -5,7 +5,14 @@ export function queryAccountBook(params: AccountBookParams) {
   return request('/api/accountBooks', {
     params,
   }).then((res) => {
-    return { data: res.data.data, success: true, total: 0 };
+    const {list: data, total, current, pageSize} = res.data;
+    return {
+      data,
+      success: true,
+      total: total,
+      current: current,
+      pageSize: pageSize,
+    };
   });
 }
 
