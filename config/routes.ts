@@ -20,9 +20,7 @@
       {
         path: '/',
         component: '../layouts/BasicLayout',
-        wrappers: [
-          '@/wrappers/auth.tsx'
-        ],
+        wrappers: ['@/wrappers/auth.tsx'],
         routes: [
           {
             path: '/',
@@ -39,6 +37,12 @@
             name: 'AccountBook',
             icon: 'account-book',
             component: './AccountBook',
+          },
+          {
+            path: '/carryOutCalendar',
+            name: 'CarryOutCalendar',
+            icon: 'carry-out',
+            component: './CarryOutCalendar',
           },
         ],
       },
