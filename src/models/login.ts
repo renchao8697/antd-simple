@@ -27,13 +27,19 @@ const saveToken = (token: string) => {
   window.localStorage.setItem('token', token);
 };
 
+const saveUserInfo = (userInfo: {username: string, id: string}) => {
+  const data = JSON.stringify(userInfo)
+  window.localStorage.setItem('userInfo', data);
+}
+
 const token = window.localStorage.getItem('token')
+const userInfo = JSON.parse(window.localStorage.getItem('userInfo') ?? '{}')
 
 const UserModel: LoginModelType = {
   namespace: 'login',
   state: {
     success: token ? true : undefined,
-    username: undefined,
+    username: userInfo.username ? userInfo.username: undefined,
     id: undefined,
   },
   effects: {
@@ -60,6 +66,7 @@ const UserModel: LoginModelType = {
       const { code, data } = payload;
       const { id, username } = data;
       saveToken(data.token);
+      saveUserInfo({id, username})
       return {
         ...state,
         success: code === 0,

@@ -24,11 +24,14 @@ function getAccountBook(req: Request, res: Response) {
   );
 
   const result = {
-    data: dataSource,
-    success: true,
-    total: accountBookList.length,
-    current,
-    pageSize,
+    code: 0,
+    data: {
+      list: dataSource,
+      success: true,
+      total: accountBookList.length,
+      current,
+      pageSize,
+    },
   };
 
   res.json(result);
@@ -40,7 +43,7 @@ function updateAccountBook(req: Request, res: Response) {
   const index = accountBookList.findIndex((item) => item._id === _id);
   accountBookList[index] = { ...data };
   res.json({
-    success: true,
+    code: 0,
   });
 }
 
@@ -52,7 +55,7 @@ function deleteAccountBook(req: Request, res: Response) {
   accountBookList.splice(index, 1);
 
   res.json({
-    success: true,
+    code: 0,
   });
 }
 
@@ -63,13 +66,13 @@ function createAccountBook(req: Request, res: Response) {
 
   accountBookList.unshift(data);
   res.json({
-    success: true,
+    code: 0,
   });
 }
 
 export default {
   'GET /api/accountbooks': getAccountBook,
-  'PUT /api/accountbooks': updateAccountBook,
-  'DELETE /api/accountbooks': deleteAccountBook,
+  'PUT /api/accountbooks/:id': updateAccountBook,
+  'DELETE /api/accountbooks/:id': deleteAccountBook,
   'POST /api/accountbooks': createAccountBook,
 };
