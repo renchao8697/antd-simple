@@ -3,16 +3,23 @@ import { Modal } from 'antd';
 
 interface CarryOutFormProps {
   modalVisible: boolean;
-  type: 'addition' | 'carryOut';
+  title: '打卡' | '补卡';
+  confirmLoading: boolean;
   onCancel: () => void;
   onOk?: () => void;
 }
 
 const CarryOutForm: FC<CarryOutFormProps> = (props) => {
-  const { modalVisible, type, children, onOk, onCancel } = props;
-  const title = type === 'carryOut' ? '打卡' : '补卡';
+  const { modalVisible, title, children, confirmLoading, onOk, onCancel } = props;
   return (
-    <Modal destroyOnClose title={title} visible={modalVisible} onCancel={onCancel} onOk={onOk}>
+    <Modal
+      destroyOnClose
+      title={title}
+      visible={modalVisible}
+      confirmLoading={confirmLoading}
+      onCancel={onCancel}
+      onOk={onOk}
+    >
       {children}
     </Modal>
   );

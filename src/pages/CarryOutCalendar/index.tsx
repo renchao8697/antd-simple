@@ -1,12 +1,41 @@
 import { useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Calendar, Tag } from 'antd';
-import { FormOutlined, EditOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { CarryOutTwoTone } from '@ant-design/icons';
 import moment, { Moment as momentType } from 'moment';
 import styles from './index.less';
 import CarryOutForm from './CarryOutForm';
 
 const { CheckableTag } = Tag;
+
+enum tagEnum {
+  '学习' = 1,
+  '英语' = 2,
+  '听力' = 3,
+  '算法' = 4,
+  '面试题' = 5,
+}
+enum colorEnum {
+  'magenta' = 1,
+  'red' = 2,
+  'volcano' = 3,
+  'orange' = 4,
+  'gold' = 5,
+  'lime' = 6,
+  'green' = 7,
+  'cyan' = 8,
+  'blue' = 9,
+  'geekblue' = 10,
+  'purple' = 11,
+}
+const dataSource = {
+  '20210305': [1, 2, 3],
+  '20210306': [1, 2, 3, 4],
+  '20210307': [1, 2, 5],
+  '20210308': [1, 3, 4],
+  '20210310': [2, 3, 5],
+  '20210311': [1, 2, 3, 4, 5],
+};
 
 const CarryOutCalendar = () => {
   const today = moment(new Date()).format('YYYYMMDD');
@@ -14,41 +43,62 @@ const CarryOutCalendar = () => {
   const tomorrow = moment(new Date()).add(1, 'days').format('YYYYMMDD');
 
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [formType, setFormType] = useState<'carryOut' | 'addition'>('carryOut');
+  const [formTitle, setFormTitle] = useState<'打卡' | '补卡'>('打卡');
+  const [confirmLoading, setLoading] = useState<boolean>(false);
 
-  const additionHandler = () => {
-    console.log(yesterday);
+  const [tagData, setTagData] = useState([
+    {
+      value: 1,
+      checked: true,
+    },
+    {
+      value: 2,
+      checked: true,
+    },
+    {
+      value: 3,
+      checked: false,
+    },
+    {
+      value: 4,
+      checked: true,
+    },
+    {
+      value: 5,
+      checked: false,
+    },
+  ]);
+
+  const carryOutHandler = (date: string) => {
     setShowModal(true);
-    setFormType('addition');
-  };
-  const carryOutHandler = () => {
-    console.log(today);
-    setShowModal(true);
-    setFormType('carryOut');
+    const title = date === today ? '打卡' : '补卡';
+    setFormTitle(title);
   };
 
   const submitCarryOut = () => {
-    console.log('submit');
+    console.log('submit', tagData);
   };
 
-  const changeCheckedTag = (checked: boolean) => {
-    console.log(checked);
+  const changeCheckedTag = (checked: boolean, i: number) => {
+    setTagData(tagData.map((tag, index) => (i === index ? { ...tag, checked } : tag)));
   };
 
   const dateCellRender = (value: momentType) => {
     const date = value.format('YYYYMMDD');
     return (
       <div className={styles.dateCell}>
-        {date === today && (
-          <FormOutlined className={styles.carryOutButton} onClick={carryOutHandler} />
-        )}
-        {date === yesterday && (
-          <EditOutlined className={styles.carryOutButton} onClick={additionHandler} />
-        )}
         <div>
-          <Tag icon={<CheckCircleOutlined />} color="magenta">
+          {dataSource[date] &&
+            dataSource[date].map((val: number) => {
+              return (
+                <Tag color={colorEnum[val]} key={val}>
+                  {tagEnum[val]}
+                </Tag>
+              );
+            })}
+          {/* <Tag color="magenta">
             学习
-          </Tag>
+          </Tag> */}
           {/* <Tag color="magenta">magenta</Tag>
           <Tag color="red">red</Tag>
           <Tag color="volcano">volcano</Tag>
@@ -61,6 +111,12 @@ const CarryOutCalendar = () => {
           <Tag color="geekblue">geekblue</Tag>
           <Tag color="purple">purple</Tag> */}
         </div>
+        {(date === today || date === yesterday) && (
+          <CarryOutTwoTone
+            className={styles.carryOutButton}
+            onClick={() => carryOutHandler(date)}
+          />
+        )}
       </div>
     );
   };
@@ -73,21 +129,37 @@ const CarryOutCalendar = () => {
       />
       {showModal && (
         <CarryOutForm
-          type={formType}
+          title={formTitle}
           modalVisible={showModal}
+          confirmLoading={confirmLoading}
           onCancel={() => {
             setShowModal(false);
           }}
           onOk={() => {
+            setLoading(true);
             submitCarryOut();
-            setShowModal(false);
+            setTimeout(() => {
+              setLoading(false);
+              setShowModal(false);
+            }, 2000);
           }}
         >
           <div className={styles.checkTags}>
-            <CheckableTag checked={true} onChange={(checked) => changeCheckedTag(checked)}>
+            {tagData.map((tag, i) => {
+              return (
+                <CheckableTag
+                  key={tag.value}
+                  checked={tag.checked}
+                  onChange={(checked) => changeCheckedTag(checked, i)}
+                >
+                  {tagEnum[tag.value]}
+                </CheckableTag>
+              );
+            })}
+            {/* <CheckableTag checked={true} onChange={(checked) => changeCheckedTag(checked)}>
               学习
             </CheckableTag>
-            <CheckableTag checked={false}>英语</CheckableTag>
+            <CheckableTag checked={false}>英语</CheckableTag> */}
           </div>
           <footer></footer>
         </CarryOutForm>
