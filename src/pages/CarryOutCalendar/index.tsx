@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Calendar, Tag } from 'antd';
 import { CarryOutTwoTone } from '@ant-design/icons';
 import moment, { Moment as momentType } from 'moment';
 import styles from './index.less';
 import CarryOutForm from './CarryOutForm';
+import { getCarryOutCalendar } from './services';
 
 const { CheckableTag } = Tag;
 
@@ -28,14 +29,14 @@ enum colorEnum {
   'geekblue' = 10,
   'purple' = 11,
 }
-const dataSource = {
-  '20210305': [1, 2, 3],
-  '20210306': [1, 2, 3, 4],
-  '20210307': [1, 2, 5],
-  '20210308': [1, 3, 4],
-  '20210310': [2, 3, 5],
-  '20210311': [1, 2, 3, 4, 5],
-};
+
+interface CarryOutCalendarType {
+  [key: string]: CarryOutItem[];
+}
+interface CarryOutItem {
+  value: number;
+  checked: boolean;
+}
 
 const CarryOutCalendar = () => {
   const today = moment(new Date()).format('YYYYMMDD');
@@ -45,15 +46,16 @@ const CarryOutCalendar = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [formTitle, setFormTitle] = useState<'打卡' | '补卡'>('打卡');
   const [confirmLoading, setLoading] = useState<boolean>(false);
+  const [carryOutData, setCarryOutData] = useState<CarryOutCalendarType>({});
 
-  const [tagData, setTagData] = useState([
+  const [tagData, setTagData] = useState<CarryOutItem[]>([
     {
       value: 1,
-      checked: true,
+      checked: false,
     },
     {
       value: 2,
-      checked: true,
+      checked: false,
     },
     {
       value: 3,
@@ -61,7 +63,7 @@ const CarryOutCalendar = () => {
     },
     {
       value: 4,
-      checked: true,
+      checked: false,
     },
     {
       value: 5,
@@ -71,6 +73,8 @@ const CarryOutCalendar = () => {
 
   const carryOutHandler = (date: string) => {
     setShowModal(true);
+    const data = carryOutData[date] ?? tagData;
+    setTagData(data);
     const title = date === today ? '打卡' : '补卡';
     setFormTitle(title);
   };
@@ -88,28 +92,14 @@ const CarryOutCalendar = () => {
     return (
       <div className={styles.dateCell}>
         <div>
-          {dataSource[date] &&
-            dataSource[date].map((val: number) => {
+          {carryOutData[date] &&
+            carryOutData[date].map((item: CarryOutItem) => {
               return (
-                <Tag color={colorEnum[val]} key={val}>
-                  {tagEnum[val]}
+                <Tag color={colorEnum[item.value]} key={item.value}>
+                  {tagEnum[item.value]}
                 </Tag>
               );
             })}
-          {/* <Tag color="magenta">
-            学习
-          </Tag> */}
-          {/* <Tag color="magenta">magenta</Tag>
-          <Tag color="red">red</Tag>
-          <Tag color="volcano">volcano</Tag>
-          <Tag color="orange">orange</Tag>
-          <Tag color="gold">gold</Tag>
-          <Tag color="lime">lime</Tag>
-          <Tag color="green">green</Tag>
-          <Tag color="cyan">cyan</Tag>
-          <Tag color="blue">blue</Tag>
-          <Tag color="geekblue">geekblue</Tag>
-          <Tag color="purple">purple</Tag> */}
         </div>
         {(date === today || date === yesterday) && (
           <CarryOutTwoTone
@@ -120,6 +110,15 @@ const CarryOutCalendar = () => {
       </div>
     );
   };
+
+  const getData = async () => {
+    const res = await getCarryOutCalendar(today);
+    setCarryOutData(res.data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <PageContainer>
@@ -156,12 +155,7 @@ const CarryOutCalendar = () => {
                 </CheckableTag>
               );
             })}
-            {/* <CheckableTag checked={true} onChange={(checked) => changeCheckedTag(checked)}>
-              学习
-            </CheckableTag>
-            <CheckableTag checked={false}>英语</CheckableTag> */}
           </div>
-          <footer></footer>
         </CarryOutForm>
       )}
     </PageContainer>

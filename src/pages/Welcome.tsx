@@ -4,11 +4,14 @@ import request from '@/utils/request';
 
 const Welcome = () => {
   const [txt, setTxt] = useState('');
+
+  const test = async () => {
+    const { data = 'default' } = await request('/api/');
+    setTxt(data);
+  };
+
   useEffect(() => {
-    (async () => {
-      const { data = 'default' } = await request('/api/');
-      setTxt(data);
-    })();
+    test();
   }, []);
   return <PageContainer>{txt}</PageContainer>;
 };
