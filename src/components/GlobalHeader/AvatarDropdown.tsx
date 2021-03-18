@@ -17,7 +17,7 @@ type EventProps = {
 
 type AvatarDropdownProps = {
   dispatch: Dispatch;
-  userLogin: LoginStateType; 
+  userLogin: LoginStateType;
 } & Partial<ConnectProps>;
 
 // TODO: 添加其他Menu.Item
@@ -53,4 +53,4 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ userLogin, dispatch }) => {
 };
 
 // TODO: 获取有用的state
-export default connect(({login}: ConnectState) => ({userLogin: login}))(AvatarDropdown);
+export default connect(({ login }: ConnectState) => ({ userLogin: login }))(AvatarDropdown);

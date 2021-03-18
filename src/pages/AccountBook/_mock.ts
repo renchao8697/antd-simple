@@ -41,7 +41,7 @@ function getAccountBook(req: Request, res: Response) {
 function updateAccountBook(req: Request, res: Response) {
   const data = req.body;
   const { _id } = data;
-  const index = accountBookList.findIndex((item) => item['_id'] === _id);
+  const index = accountBookList.findIndex((item) => item._id === _id);
   accountBookList[index] = { ...data };
   res.json({
     code: 0,
@@ -51,7 +51,7 @@ function updateAccountBook(req: Request, res: Response) {
 function deleteAccountBook(req: Request, res: Response) {
   const { _id } = req.body;
 
-  const index = accountBookList.findIndex((item) => item['_id'] === _id);
+  const index = accountBookList.findIndex((item) => item._id === _id);
 
   accountBookList.splice(index, 1);
 
@@ -63,7 +63,7 @@ function deleteAccountBook(req: Request, res: Response) {
 function createAccountBook(req: Request, res: Response) {
   const data = { ...req.body };
   data.createdAt = new Date();
-  data['_id'] = parseInt(accountBookList[accountBookList.length - 1]['_id'], 10) + 1;
+  data._id = parseInt(accountBookList[accountBookList.length - 1]._id, 10) + 1;
 
   accountBookList.unshift(data);
   res.json({
