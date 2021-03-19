@@ -16,7 +16,6 @@ const FullScreenLayout: FC = (props: any) => {
           </div>
           <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
         </div>
-
         {props.children}
       </div>
     </div>

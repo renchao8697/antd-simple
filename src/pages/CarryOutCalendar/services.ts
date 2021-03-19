@@ -1,13 +1,13 @@
 import request from '@/utils/request';
 import type { ICarryOutCalendar } from './data';
 
-export function getCarryOutCalendar(date: string) {
+export function getCalendar(date: string) {
   const params = { date };
-  return request('/api/carryOutCalendars', { params });
+  return request('/api/calendars', { params });
 }
 
-export function createCarryOutCalendar(params: ICarryOutCalendar) {
-  return request('/api/carryOutCalendars', {
+export function createCalendar(params: ICarryOutCalendar) {
+  return request('/api/calendars', {
     method: 'POST',
     data: {
       ...params,

@@ -15,6 +15,10 @@
             path: '/user/login',
             component: './Login',
           },
+          {
+            path: '/user/register',
+            component: './Register',
+          },
         ],
       },
       {
@@ -34,7 +38,7 @@
           },
           {
             path: '/account',
-            name: 'Account',
+            name: 'AccountBook',
             icon: 'account-book',
             component: './AccountBook',
           },

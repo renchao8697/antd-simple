@@ -71,6 +71,6 @@ function createCarryOutCalendar(req: Request, res: Response) {
 }
 
 export default {
-  'GET /api/carryOutCalendars': getCarryOutCalendar,
-  'POST /api/carryOutCalendars': createCarryOutCalendar,
+  'GET /api/calendars': getCarryOutCalendar,
+  'POST /api/calendars': createCarryOutCalendar,
 };

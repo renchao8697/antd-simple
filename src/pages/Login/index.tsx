@@ -9,6 +9,7 @@ import styles from './index.less';
 import type { StateType } from '@/models/login';
 import type { LoginParamsType } from '@/services/login';
 import { Alert } from 'antd';
+import md5 from '@/utils/md5';
 
 export type LoginProps = {
   userLogin: StateType;
@@ -34,10 +35,12 @@ const Login: FC<LoginProps> = (props) => {
   const { success } = userLogin;
 
   const handleSubmit = (values: LoginParamsType) => {
+    let { password } = values;
+    password = md5(password);
     const { dispatch } = props;
     dispatch({
       type: 'login/login',
-      payload: { ...values },
+      payload: { ...values, password },
     });
   };
 

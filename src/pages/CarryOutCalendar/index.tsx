@@ -6,7 +6,7 @@ import type { Moment as MomentType } from 'moment';
 import moment from 'moment';
 import styles from './index.less';
 import CarryOutForm from './CarryOutForm';
-import { getCarryOutCalendar, createCarryOutCalendar } from './services';
+import { getCalendar, createCalendar } from './services';
 import type { ICarryOutItem, ICarryOutCalendar } from './data';
 import { TagEnum, ColorEnum } from './enums';
 
@@ -41,7 +41,7 @@ const CarryOutCalendar = () => {
   const [tagData, setTagData] = useState<ICarryOutItem[]>(initTagData);
 
   const getData = async (date: string) => {
-    const res = await getCarryOutCalendar(date);
+    const res = await getCalendar(date);
     setCarryOutData(res.data);
   };
 
@@ -59,7 +59,7 @@ const CarryOutCalendar = () => {
       [date]: tagData,
     };
     try {
-      await createCarryOutCalendar(params);
+      await createCalendar(params);
       message.success(`${formTitle}成功`);
       setShowModal(false);
       getData(queryDate);
