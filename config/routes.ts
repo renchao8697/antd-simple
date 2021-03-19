@@ -33,8 +33,8 @@
             component: './Welcome',
           },
           {
-            path: '/accountbook',
-            name: 'AccountBook',
+            path: '/account',
+            name: 'Account',
             icon: 'account-book',
             component: './AccountBook',
           },

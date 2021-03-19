@@ -1,4 +1,4 @@
-export interface AccountBookItem {
+export interface AccountItem {
   _id: string;
   createdAt: Date;
   amount: number;
@@ -7,7 +7,7 @@ export interface AccountBookItem {
   status: string;
 }
 
-export interface AccountBookParams {
+export interface AccountParams {
   status?: string;
   desc?: string;
   createStart?: string;

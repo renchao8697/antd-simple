@@ -1,8 +1,8 @@
 import request from '@/utils/request';
-import type { AccountBookItem, AccountBookParams } from './data';
+import type { AccountItem, AccountParams } from './data';
 
-export function queryAccountBook(params: AccountBookParams) {
-  return request('/api/accountBooks', {
+export function queryAccount(params: AccountParams) {
+  return request('/api/accounts', {
     params,
   }).then((res) => {
     const { list: data, total, current, pageSize } = res.data;
@@ -16,8 +16,8 @@ export function queryAccountBook(params: AccountBookParams) {
   });
 }
 
-export function updateAccountBook(params: AccountBookItem) {
-  return request(`/api/accountBooks/${params._id}`, {
+export function updateAccount(params: AccountItem) {
+  return request(`/api/accounts/${params._id}`, {
     method: 'PUT',
     data: {
       ...params,
@@ -25,8 +25,8 @@ export function updateAccountBook(params: AccountBookItem) {
   });
 }
 
-export function deleteAccountBook(_id: string) {
-  return request(`/api/accountBooks/${_id}`, {
+export function deleteAccount(_id: string) {
+  return request(`/api/accounts/${_id}`, {
     method: 'DELETE',
     data: {
       _id,
@@ -34,8 +34,8 @@ export function deleteAccountBook(_id: string) {
   });
 }
 
-export function createAccoutBook(params: AccountBookItem) {
-  return request('/api/accountBooks', {
+export function createAccout(params: AccountItem) {
+  return request('/api/accounts', {
     method: 'POST',
     data: {
       ...params,

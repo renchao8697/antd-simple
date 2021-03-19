@@ -1,13 +1,13 @@
 import type { FC } from 'react';
 import { Modal } from 'antd';
 
-interface AccountBookFormProps {
+interface AccountFormProps {
   modalVisible: boolean;
   type: 'edit' | 'create';
   onCancel: () => void;
 }
 
-const AccountBookForm: FC<AccountBookFormProps> = (props) => {
+const AccountForm: FC<AccountFormProps> = (props) => {
   const { type, modalVisible, children, onCancel } = props;
   return (
     <Modal
@@ -22,4 +22,4 @@ const AccountBookForm: FC<AccountBookFormProps> = (props) => {
   );
 };
 
-export default AccountBookForm;
+export default AccountForm;

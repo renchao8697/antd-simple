@@ -15,11 +15,11 @@ function genList(count: number) {
   return data;
 }
 
-const accountBookList = genList(100);
+const accountList = genList(100);
 
-function getAccountBook(req: Request, res: Response) {
+function getAccount(req: Request, res: Response) {
   const { current = 1, pageSize = 10 } = req.query;
-  const dataSource = accountBookList.slice(
+  const dataSource = accountList.slice(
     ((current as number) - 1) * (pageSize as number),
     (current as number) * (pageSize as number),
   );
@@ -29,7 +29,7 @@ function getAccountBook(req: Request, res: Response) {
     data: {
       list: dataSource,
       success: true,
-      total: accountBookList.length,
+      total: accountList.length,
       current,
       pageSize,
     },
@@ -38,42 +38,42 @@ function getAccountBook(req: Request, res: Response) {
   res.json(result);
 }
 
-function updateAccountBook(req: Request, res: Response) {
+function updateAccount(req: Request, res: Response) {
   const data = req.body;
   const { _id } = data;
-  const index = accountBookList.findIndex((item) => item._id === _id);
-  accountBookList[index] = { ...data };
+  const index = accountList.findIndex((item) => item._id === _id);
+  accountList[index] = { ...data };
   res.json({
     code: 0,
   });
 }
 
-function deleteAccountBook(req: Request, res: Response) {
+function deleteAccount(req: Request, res: Response) {
   const { _id } = req.body;
 
-  const index = accountBookList.findIndex((item) => item._id === _id);
+  const index = accountList.findIndex((item) => item._id === _id);
 
-  accountBookList.splice(index, 1);
+  accountList.splice(index, 1);
 
   res.json({
     code: 0,
   });
 }
 
-function createAccountBook(req: Request, res: Response) {
+function createAccount(req: Request, res: Response) {
   const data = { ...req.body };
   data.createdAt = new Date();
-  data._id = parseInt(accountBookList[accountBookList.length - 1]._id, 10) + 1;
+  data._id = parseInt(accountList[accountList.length - 1]._id, 10) + 1;
 
-  accountBookList.unshift(data);
+  accountList.unshift(data);
   res.json({
     code: 0,
   });
 }
 
 export default {
-  'GET /api/accountbooks': getAccountBook,
-  'PUT /api/accountbooks/:id': updateAccountBook,
-  'DELETE /api/accountbooks/:id': deleteAccountBook,
-  'POST /api/accountbooks': createAccountBook,
+  'GET /api/accounts': getAccount,
+  'PUT /api/accounts/:id': updateAccount,
+  'DELETE /api/accounts/:id': deleteAccount,
+  'POST /api/accounts': createAccount,
 };

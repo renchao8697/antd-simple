@@ -6,24 +6,19 @@ import ProTable from '@ant-design/pro-table';
 import { Button, Divider, message, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-import AccountBookForm from './AccountBookForm';
-import {
-  queryAccountBook,
-  updateAccountBook,
-  deleteAccountBook,
-  createAccoutBook,
-} from './services';
-import type { AccountBookItem } from './data';
+import AccountForm from './AccountForm';
+import { queryAccount, updateAccount, deleteAccount, createAccout } from './services';
+import type { AccountItem } from './data';
 
-const submitHandler = async (values: AccountBookItem) => {
+const submitHandler = async (values: AccountItem) => {
   const { _id } = values;
   const txt = _id ? '更新' : '创建';
   const hide = message.loading(`正在${txt}`);
   try {
     if (_id) {
-      await updateAccountBook(values);
+      await updateAccount(values);
     } else {
-      await createAccoutBook(values);
+      await createAccout(values);
     }
     hide();
     message.success(`${txt}成功`);
@@ -37,7 +32,7 @@ const submitHandler = async (values: AccountBookItem) => {
 const deleteHandler = async (_id: string) => {
   const hide = message.loading('正在删除');
   try {
-    await deleteAccountBook(_id);
+    await deleteAccount(_id);
     hide();
     message.success('删除成功');
     return true;
@@ -51,7 +46,7 @@ const deleteHandler = async (_id: string) => {
 const AccountBook: FC<Record<string, never>> = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [formType, setFormType] = useState<'edit' | 'create'>('edit');
-  const [row, setRow] = useState<AccountBookItem>();
+  const [row, setRow] = useState<AccountItem>();
   const actionRef = useRef<ActionType>();
 
   const createFun = () => {
@@ -59,12 +54,12 @@ const AccountBook: FC<Record<string, never>> = () => {
     setFormType('create');
   };
 
-  const editFun = (data: AccountBookItem) => {
+  const editFun = (data: AccountItem) => {
     setRow(data);
     setShowModal(true);
     setFormType('edit');
   };
-  const deleteFun = ({ _id }: AccountBookItem) => {
+  const deleteFun = ({ _id }: AccountItem) => {
     Modal.confirm({
       title: '删除该项',
       content: '确定要删除该项账目吗？',
@@ -79,7 +74,7 @@ const AccountBook: FC<Record<string, never>> = () => {
     });
   };
 
-  const columns: ProColumns<AccountBookItem>[] = [
+  const columns: ProColumns<AccountItem>[] = [
     {
       title: '序号',
       dataIndex: 'index',
@@ -205,14 +200,14 @@ const AccountBook: FC<Record<string, never>> = () => {
 
   return (
     <PageContainer>
-      <ProTable<AccountBookItem>
+      <ProTable<AccountItem>
         actionRef={actionRef}
         columns={columns}
         pagination={{
           pageSize: 10,
         }}
         rowKey="_id"
-        request={(params, sorter) => queryAccountBook({ ...params, sorter })}
+        request={(params, sorter) => queryAccount({ ...params, sorter })}
         toolBarRender={() => [
           <Button type="primary" onClick={() => createFun()}>
             <PlusOutlined />
@@ -220,7 +215,7 @@ const AccountBook: FC<Record<string, never>> = () => {
           </Button>,
         ]}
       ></ProTable>
-      <AccountBookForm
+      <AccountForm
         modalVisible={showModal}
         type={formType}
         onCancel={() => {
@@ -228,7 +223,7 @@ const AccountBook: FC<Record<string, never>> = () => {
           setRow(undefined);
         }}
       >
-        <ProTable<AccountBookItem, AccountBookItem>
+        <ProTable<AccountItem, AccountItem>
           type="form"
           columns={columns}
           form={{
@@ -250,7 +245,7 @@ const AccountBook: FC<Record<string, never>> = () => {
             }
           }}
         />
-      </AccountBookForm>
+      </AccountForm>
     </PageContainer>
   );
 };
