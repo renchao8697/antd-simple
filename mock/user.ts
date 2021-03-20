@@ -14,14 +14,14 @@ export default {
 
     await waitTime(1000);
 
-    if (username === 'renchao' && password === '123456') {
+    if (username === 'renchao' && password === 'e10adc3949ba59abbe56e057f20f883e') {
       res.send({
         code: 0,
         data: {
           id: '123456',
           token: '123456',
-          username: 'renchao'
-        }
+          username: 'renchao',
+        },
       });
       return;
     }

@@ -12,23 +12,35 @@ function mockData(date: string) {
     const day = i < 10 ? `0${i}` : i;
     dataSource[month + day] = [
       {
-        value: 1,
+        type: 'morning',
         checked: Math.random() < 0.5,
       },
       {
-        value: 2,
+        type: 'listen',
         checked: Math.random() < 0.5,
       },
       {
-        value: 3,
+        type: 'English',
         checked: Math.random() < 0.5,
       },
       {
-        value: 4,
+        type: 'algorithm',
         checked: Math.random() < 0.5,
       },
       {
-        value: 5,
+        type: 'interview',
+        checked: Math.random() < 0.5,
+      },
+      {
+        type: 'code',
+        checked: Math.random() < 0.5,
+      },
+      {
+        type: 'read',
+        checked: Math.random() < 0.5,
+      },
+      {
+        type: 'sport',
         checked: Math.random() < 0.5,
       },
     ];
@@ -60,13 +72,12 @@ function getCarryOutCalendar(req: Request, res: Response) {
 }
 
 function createCarryOutCalendar(req: Request, res: Response) {
-  const data = req.body;
-  const date = Object.keys(data)[0];
+  const { date, tagData } = req.body;
   const month = date.slice(0, -2);
-  dataObj[month] = { ...dataObj[month], ...data };
+  dataObj[month] = { ...dataObj[month], ...tagData };
   res.json({
     code: 0,
-    data,
+    tagData,
   });
 }
 

@@ -8,17 +8,14 @@ import styles from './index.less';
 import CarryOutForm from './CarryOutForm';
 import { getCalendar, createCalendar } from './services';
 import type { ICarryOutItem, ICarryOutCalendar } from './data';
-import { TagEnum, ColorEnum } from './enums';
+import { TagMap, ColorMap } from './maps';
 
 const { CheckableTag } = Tag;
 
 export const initializeTagData = (): ICarryOutItem[] => {
   const list: ICarryOutItem[] = [];
-  Object.keys(TagEnum).forEach((tag) => {
-    const val = parseInt(tag, 10);
-    if (!Number.isNaN(val)) {
-      list.push({ value: val, checked: false });
-    }
+  Object.keys(TagMap).forEach((tag) => {
+    list.push({ type: tag, checked: false });
   });
 
   return list;
@@ -29,7 +26,8 @@ const initTagData = initializeTagData();
 const CarryOutCalendar = () => {
   const today = moment().format('YYYYMMDD');
   const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
-  const tomorrow = moment().add(1, 'days').format('YYYYMMDD');
+
+  const startDate = moment('20210301');
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [formTitle, setFormTitle] = useState<'打卡' | '补卡'>('打卡');
@@ -56,7 +54,8 @@ const CarryOutCalendar = () => {
   const submitCarryOut = async () => {
     const date = formTitle === '打卡' ? today : yesterday;
     const params = {
-      [date]: tagData,
+      date,
+      tagData,
     };
     try {
       await createCalendar(params);
@@ -83,8 +82,8 @@ const CarryOutCalendar = () => {
             carryOutData[date].map((item: ICarryOutItem) => {
               return (
                 item.checked && (
-                  <Tag className={styles.tag} color={ColorEnum[item.value]} key={item.value}>
-                    {TagEnum[item.value]}
+                  <Tag className={styles.tag} color={ColorMap[item.type]} key={item.type}>
+                    {TagMap[item.type]}
                   </Tag>
                 )
               );
@@ -114,7 +113,7 @@ const CarryOutCalendar = () => {
   return (
     <PageContainer>
       <Calendar
-        validRange={[moment('20210101'), moment(tomorrow)]}
+        validRange={[startDate, moment()]}
         dateCellRender={dateCellRender}
         onPanelChange={panelChangeHandler}
       />
@@ -135,11 +134,11 @@ const CarryOutCalendar = () => {
             {tagData.map((tag, i) => {
               return (
                 <CheckableTag
-                  key={tag.value}
+                  key={tag.type}
                   checked={tag.checked}
                   onChange={(checked) => changeCheckedTag(checked, i)}
                 >
-                  {TagEnum[tag.value]}
+                  {TagMap[tag.type]}
                 </CheckableTag>
               );
             })}

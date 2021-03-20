@@ -1,6 +1,11 @@
-export type ICarryOutCalendar = Record<string, CarryOutItem[]>;
+export type ICarryOutCalendar = Record<string, ICarryOutItem[]>;
 
 export interface ICarryOutItem {
-  value: number;
+  type: string;
   checked: boolean;
+}
+
+export interface ITagData {
+  date: string;
+  tagData: ICarryOutItem[];
 }
