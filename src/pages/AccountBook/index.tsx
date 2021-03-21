@@ -9,6 +9,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import AccountForm from './AccountForm';
 import { queryAccount, updateAccount, deleteAccount, createAccout } from './services';
 import type { AccountItem } from './data';
+import valueEnum from './valueEnum';
 
 const submitHandler = async (values: AccountItem) => {
   const { _id } = values;
@@ -135,13 +136,7 @@ const AccountBook: FC<Record<string, never>> = () => {
       filters: true,
       onFilter: true,
       width: 80,
-      valueEnum: {
-        1: '衣',
-        2: '食',
-        3: '住',
-        4: '行',
-        5: '其他',
-      },
+      valueEnum,
       formItemProps: {
         rules: [
           {
