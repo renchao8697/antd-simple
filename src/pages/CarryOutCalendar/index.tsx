@@ -45,7 +45,7 @@ const CarryOutCalendar = () => {
 
   const carryOutHandler = (date: string) => {
     setShowModal(true);
-    const data = carryOutData[date] ?? tagData;
+    const data = carryOutData[date] ?? initTagData;
     setTagData(data);
     const title = date === today ? '打卡' : '补卡';
     setFormTitle(title);
