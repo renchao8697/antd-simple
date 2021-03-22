@@ -13,7 +13,7 @@ export default defineConfig({
     hmr: true,
   },
   history: {
-    type: 'browser',
+    type: 'hash',
   },
   // dynamicImport: {
   //   loading: '@/components/PageLoading/index',
